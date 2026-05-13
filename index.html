@@ -1,320 +1,472 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CAMPOAMOR - Reloj</title>
+
+<title>CAMPOAMOR - Máquina Sorma</title>
 
 <style>
 :root {
-    --campoamor-brown: #49382C;
-    --campoamor-brown-dark: #2C211A;
-    --campoamor-cream: #F7F2EC;
+    --campoamor-brown: #4A372C;
+    --campoamor-dark: #2A1F19;
+    --campoamor-cream: #F5F1EC;
     --campoamor-sand: #D8C3A9;
     --campoamor-white: #FFFFFF;
-    --campoamor-shadow: rgba(44, 33, 26, 0.32);
 }
 
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial, Helvetica, sans-serif;
+
     background:
-        radial-gradient(circle at 12% 18%, rgba(216,195,169,0.35), transparent 30%),
-        radial-gradient(circle at 86% 18%, rgba(255,255,255,0.14), transparent 28%),
-        linear-gradient(135deg, var(--campoamor-brown-dark), var(--campoamor-brown));
-    color: var(--campoamor-white);
-    overflow: hidden;
+        radial-gradient(circle at top left, rgba(216,195,169,0.18), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.06), transparent 28%),
+        linear-gradient(135deg, #2A1F19 0%, #3B2B22 45%, #4A372C 100%);
+
+    color:white;
+    overflow:hidden;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
     background:
         repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,0.045) 0px,
-            rgba(255,255,255,0.045) 8px,
-            transparent 8px,
-            transparent 34px
+            120deg,
+            rgba(255,255,255,0.018) 0px,
+            rgba(255,255,255,0.018) 3px,
+            transparent 3px,
+            transparent 24px
         );
-    opacity: 0.55;
-    pointer-events: none;
+
+    opacity:0.45;
+    pointer-events:none;
 }
 
-.app {
-    position: relative;
-    min-height: 100vh;
-    padding: clamp(22px, 4vw, 54px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
+.app{
+    position:relative;
+    z-index:2;
+
+    min-height:100vh;
+
+    padding:30px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
 }
 
-.logo-card {
-    width: min(900px, 92vw);
-    margin: 0 auto;
-    background: rgba(255,255,255,0.94);
-    border-radius: 36px;
-    padding: clamp(18px, 3vw, 34px) clamp(28px, 5vw, 70px);
-    box-shadow: 0 28px 70px var(--campoamor-shadow);
-    border: 1px solid rgba(255,255,255,0.5);
+/* LOGO */
+
+.logo-card{
+    width:min(920px,92vw);
+
+    background:rgba(255,255,255,0.96);
+
+    border-radius:36px;
+
+    padding:28px 60px;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.35);
+
+    margin-top:10px;
 }
 
-.logo-card img {
-    width: 100%;
-    max-height: 145px;
-    object-fit: contain;
-    display: block;
+.logo-card img{
+    width:100%;
+    max-height:140px;
+    object-fit:contain;
+    display:block;
 }
 
-.logo-fallback {
-    display: none;
-    color: var(--campoamor-brown);
-    font-size: clamp(42px, 9vw, 118px);
-    font-weight: 900;
-    letter-spacing: 4px;
+/* BANNER */
+
+.machine-banner{
+
+    margin-top:26px;
+
+    background:rgba(255,255,255,0.14);
+
+    border:1px solid rgba(255,255,255,0.18);
+
+    backdrop-filter:blur(8px);
+
+    border-radius:28px;
+
+    padding:18px 46px;
+
+    font-size:clamp(30px,4vw,62px);
+
+    font-weight:900;
+
+    letter-spacing:4px;
+
+    box-shadow:
+        0 18px 42px rgba(0,0,0,0.25);
 }
 
-.machine-banner {
-    width: min(760px, 92vw);
-    margin: 34px auto 0;
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.24);
-    backdrop-filter: blur(8px);
-    border-radius: 28px;
-    padding: 18px 34px;
-    font-size: clamp(30px, 5vw, 64px);
-    font-weight: 900;
-    letter-spacing: 4px;
-    color: var(--campoamor-white);
-    box-shadow: 0 18px 42px rgba(0,0,0,0.24);
+/* TARJETA RELOJ */
+
+.hero{
+
+    width:min(1500px,96vw);
+
+    background:rgba(245,241,236,0.98);
+
+    color:var(--campoamor-dark);
+
+    border-radius:48px;
+
+    padding:
+        clamp(40px,5vw,75px)
+        clamp(60px,7vw,120px);
+
+    box-shadow:
+        0 35px 90px rgba(0,0,0,0.38);
+
+    margin:auto;
 }
 
-.hero {
-    margin: clamp(28px, 6vh, 70px) auto;
-    width: min(1180px, 96vw);
-    background: rgba(247,242,236,0.95);
-    color: var(--campoamor-brown-dark);
-    border-radius: 48px;
-    padding: clamp(34px, 5vw, 70px);
-    box-shadow: 0 34px 90px rgba(0,0,0,0.38);
-    border: 1px solid rgba(255,255,255,0.62);
+.label{
+
+    text-align:center;
+
+    font-size:clamp(18px,2vw,30px);
+
+    font-weight:900;
+
+    letter-spacing:6px;
+
+    text-transform:uppercase;
+
+    color:#7A6758;
+
+    margin-bottom:22px;
 }
 
-.label {
-    margin: 0 0 12px;
-    font-size: clamp(16px, 2vw, 28px);
-    font-weight: 900;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: var(--campoamor-brown);
-    opacity: 0.75;
+.clock{
+
+    text-align:center;
+
+    font-size:clamp(120px,18vw,280px);
+
+    line-height:0.9;
+
+    font-weight:900;
+
+    letter-spacing:-8px;
+
+    color:var(--campoamor-brown);
+
+    text-shadow:
+        0 10px 0 rgba(216,195,169,0.45);
 }
 
-.clock {
-    font-size: clamp(96px, 19vw, 255px);
-    line-height: 0.95;
-    font-weight: 900;
-    letter-spacing: -6px;
-    color: var(--campoamor-brown);
-    text-shadow: 0 10px 0 rgba(216,195,169,0.55);
+.date{
+
+    margin-top:30px;
+
+    text-align:center;
+
+    font-size:clamp(28px,3vw,56px);
+
+    font-weight:900;
 }
 
-.date {
-    margin-top: 24px;
-    font-size: clamp(24px, 4vw, 54px);
-    font-weight: 900;
-    color: var(--campoamor-brown-dark);
+/* FOOTER */
+
+.footer{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:14px;
 }
 
-.footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    font-size: clamp(16px, 2vw, 24px);
-    font-weight: 800;
-    opacity: 0.9;
+.pill{
+
+    background:rgba(255,255,255,0.14);
+
+    border:1px solid rgba(255,255,255,0.16);
+
+    border-radius:999px;
+
+    padding:12px 22px;
+
+    font-weight:800;
+
+    backdrop-filter:blur(8px);
 }
 
-.pill {
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 999px;
-    padding: 12px 22px;
-    backdrop-filter: blur(8px);
+button{
+
+    border:none;
+
+    border-radius:999px;
+
+    padding:14px 24px;
+
+    background:white;
+
+    color:var(--campoamor-brown);
+
+    font-size:18px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 12px 28px rgba(0,0,0,0.20);
+
+    transition:0.15s;
 }
 
-button {
-    border: 2px solid rgba(255,255,255,0.52);
-    background: rgba(255,255,255,0.92);
-    color: var(--campoamor-brown);
-    border-radius: 999px;
-    padding: 12px 22px;
-    font-size: clamp(15px, 1.6vw, 20px);
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.22);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+button:hover{
+    transform:translateY(-2px);
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 34px rgba(0,0,0,0.30);
+/* ANIMACIÓN CADA HORA */
+
+.hour-message{
+
+    position:fixed;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    background:white;
+
+    color:var(--campoamor-brown);
+
+    padding:30px 50px;
+
+    border-radius:34px;
+
+    font-size:clamp(38px,5vw,90px);
+
+    font-weight:900;
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,0.45);
+
+    opacity:0;
+
+    z-index:50;
 }
 
-@media (max-width: 700px) {
-    .app {
-        padding: 18px;
+.hour-message.show{
+    animation:popup 5s ease;
+}
+
+.hour-mark .clock{
+    animation:clockPulse 5s ease;
+}
+
+.hour-mark .machine-banner{
+    animation:bannerMove 5s ease;
+}
+
+@keyframes popup{
+
+    0%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(0.7);
     }
 
-    .logo-card {
-        border-radius: 24px;
+    15%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.05);
     }
 
-    .hero {
-        border-radius: 30px;
+    80%{
+        opacity:1;
     }
 
-    .clock {
-        letter-spacing: -3px;
+    100%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(0.9);
     }
 }
 
-.hour-mark {
-    animation: hourPulse 5s ease-in-out;
+@keyframes clockPulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    20%{
+        transform:scale(1.08);
+    }
+
+    50%{
+        transform:scale(1);
+    }
+
+    70%{
+        transform:scale(1.04);
+    }
+
+    100%{
+        transform:scale(1);
+    }
 }
 
-.hour-mark .clock {
-    animation: clockZoom 5s ease-in-out;
+@keyframes bannerMove{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    20%{
+        transform:translateY(-12px);
+    }
+
+    40%{
+        transform:translateY(0);
+    }
+
+    60%{
+        transform:translateY(-6px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
 }
 
-.hour-mark .machine-banner {
-    animation: bannerSlide 5s ease-in-out;
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .hero{
+        border-radius:30px;
+        padding:40px 20px;
+    }
+
+    .clock{
+        letter-spacing:-4px;
+    }
+
+    .logo-card{
+        padding:20px;
+    }
+
+    .machine-banner{
+        width:100%;
+        text-align:center;
+    }
 }
 
-.hour-message {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    background: rgba(255,255,255,0.96);
-    color: var(--campoamor-brown);
-    border-radius: 34px;
-    padding: 28px 48px;
-    font-size: clamp(34px, 6vw, 86px);
-    font-weight: 900;
-    letter-spacing: 3px;
-    box-shadow: 0 30px 90px rgba(0,0,0,0.42);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 10;
-}
-
-.hour-message.show {
-    animation: messagePop 5s ease-in-out;
-}
-
-@keyframes hourPulse {
-    0% { filter: brightness(1); }
-    20% { filter: brightness(1.25); }
-    100% { filter: brightness(1); }
-}
-
-@keyframes clockZoom {
-    0% { transform: scale(1); }
-    18% { transform: scale(1.08); }
-    34% { transform: scale(1); }
-    50% { transform: scale(1.04); }
-    100% { transform: scale(1); }
-}
-
-@keyframes bannerSlide {
-    0% { transform: translateY(0); }
-    20% { transform: translateY(-12px); }
-    40% { transform: translateY(0); }
-    60% { transform: translateY(-6px); }
-    100% { transform: translateY(0); }
-}
-
-@keyframes messagePop {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
-    14% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
-    24% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    78% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
-}
 </style>
 </head>
 
 <body>
 
-<div id="hourMessage" class="hour-message">CAMBIO DE HORA</div>
+<div id="hourMessage" class="hour-message">
+    CAMBIO DE HORA
+</div>
 
 <div class="app" id="app">
 
-    <header class="logo-card">
-        <img src="logo-campoamor.png" alt="Logo Campoamor" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';">
-        <div id="logoFallback" class="logo-fallback">CAMPOAMOR</div>
-    </header>
+    <div class="logo-card">
+        <img src="logo-campoamor.png" alt="Logo Campoamor">
+    </div>
 
     <div class="machine-banner">
         MÁQUINA SORMA
     </div>
 
-    <main class="hero">
-        <p class="label">Hora actual</p>
-        <div class="clock" id="clock">--:--:--</div>
-        <div class="date" id="date">--</div>
-    </main>
+    <div class="hero">
 
-    <footer class="footer">
-        <div class="pill">CAMPOAMOR</div>
-        <button onclick="toggleFullscreen()">⛶ Pantalla completa</button>
-    </footer>
+        <div class="label">
+            HORA ACTUAL
+        </div>
+
+        <div class="clock" id="clock">
+            --:--:--
+        </div>
+
+        <div class="date" id="date">
+            --
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        <div class="pill">
+            CAMPOAMOR
+        </div>
+
+        <button onclick="toggleFullscreen()">
+            ⛶ Pantalla completa
+        </button>
+
+    </div>
 
 </div>
 
 <script>
+
 let lastHourAnimation = null;
 
-function updateClock() {
+function updateClock(){
+
     const now = new Date();
 
-    document.getElementById("clock").textContent = now.toLocaleTimeString("es-ES", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-    });
+    document.getElementById("clock").textContent =
+        now.toLocaleTimeString("es-ES",{
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit"
+        });
 
-    document.getElementById("date").textContent = now.toLocaleDateString("es-ES", {
-        weekday: "long",
-        day: "2-digit",
-        month: "long",
-        year: "numeric"
-    });
+    document.getElementById("date").textContent =
+        now.toLocaleDateString("es-ES",{
+            weekday:"long",
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
+        });
 
-    if (now.getMinutes() === 0 && now.getSeconds() === 0) {
-        const hourKey = now.toDateString() + "-" + now.getHours();
+    if(now.getMinutes() === 0 && now.getSeconds() === 0){
 
-        if (lastHourAnimation !== hourKey) {
-            lastHourAnimation = hourKey;
+        const key =
+            now.toDateString() + "-" + now.getHours();
+
+        if(lastHourAnimation !== key){
+
+            lastHourAnimation = key;
+
             triggerHourAnimation();
         }
     }
 }
 
-function triggerHourAnimation() {
-    const app = document.getElementById("app");
-    const message = document.getElementById("hourMessage");
+function triggerHourAnimation(){
+
+    const app =
+        document.getElementById("app");
+
+    const message =
+        document.getElementById("hourMessage");
 
     app.classList.remove("hour-mark");
     message.classList.remove("show");
@@ -324,26 +476,37 @@ function triggerHourAnimation() {
     app.classList.add("hour-mark");
     message.classList.add("show");
 
-    setTimeout(() => {
+    setTimeout(()=>{
+
         app.classList.remove("hour-mark");
         message.classList.remove("show");
-    }, 5200);
+
+    },5200);
 }
 
-function toggleFullscreen() {
-    if (!document.fullscreenElement) {
+function toggleFullscreen(){
+
+    if(!document.fullscreenElement){
+
         document.documentElement.requestFullscreen();
-    } else {
+
+    }else{
+
         document.exitFullscreen();
     }
 }
 
-document.addEventListener("keydown", function(e) {
-    if (e.key.toLowerCase() === "f") toggleFullscreen();
+document.addEventListener("keydown",function(e){
+
+    if(e.key.toLowerCase()==="f"){
+        toggleFullscreen();
+    }
 });
 
-setInterval(updateClock, 1000);
+setInterval(updateClock,1000);
+
 updateClock();
+
 </script>
 
 </body>
