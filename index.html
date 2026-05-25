@@ -272,15 +272,15 @@ button:hover{
 }
 
 .hour-message.show{
-    animation:popup 5s ease;
+    animation:popup 15s ease;
 }
 
 .hour-mark .clock{
-    animation:clockPulse 5s ease;
+    animation:clockPulse 15s ease;
 }
 
 .hour-mark .machine-banner{
-    animation:bannerMove 5s ease;
+    animation:bannerMove 15s ease;
 }
 
 @keyframes popup{
@@ -380,8 +380,12 @@ button:hover{
 <body>
 
 <div id="hourMessage" class="hour-message">
-    CAMBIO DE HORA
+    AVISO DE CAMBIO
 </div>
+
+<audio id="alarmSound" preload="auto">
+    <source src="sirena.mp3" type="audio/mpeg">
+</audio>
 
 <div class="app" id="app">
 
@@ -425,7 +429,12 @@ button:hover{
 
 <script>
 
-let lastHourAnimation = null;
+const alarmTimes = [
+    "10:00",
+    "14:00"
+];
+
+let lastAlarmEvent = null;
 
 function updateClock(){
 
@@ -446,17 +455,21 @@ function updateClock(){
             year:"numeric"
         });
 
-    if(now.getMinutes() === 0 && now.getSeconds() === 0){
+    const currentTime =
+        String(now.getHours()).padStart(2,"0") +
+        ":" +
+        String(now.getMinutes()).padStart(2,"0");
 
-        const key =
-            now.toDateString() + "-" + now.getHours();
+    const eventKey =
+        now.toDateString() + "-" + currentTime;
 
-        if(lastHourAnimation !== key){
-
-            lastHourAnimation = key;
-
-            triggerHourAnimation();
-        }
+    if(
+        now.getSeconds() === 0 &&
+        alarmTimes.includes(currentTime) &&
+        lastAlarmEvent !== eventKey
+    ){
+        lastAlarmEvent = eventKey;
+        triggerHourAnimation();
     }
 }
 
@@ -468,6 +481,9 @@ function triggerHourAnimation(){
     const message =
         document.getElementById("hourMessage");
 
+    const sound =
+        document.getElementById("alarmSound");
+
     app.classList.remove("hour-mark");
     message.classList.remove("show");
 
@@ -476,12 +492,26 @@ function triggerHourAnimation(){
     app.classList.add("hour-mark");
     message.classList.add("show");
 
+    sound.pause();
+    sound.currentTime = 0;
+
+    const playPromise = sound.play();
+
+    if(playPromise !== undefined){
+        playPromise.catch(function(){
+            console.log("El navegador ha bloqueado el sonido hasta que haya interacción del usuario.");
+        });
+    }
+
     setTimeout(()=>{
+
+        sound.pause();
+        sound.currentTime = 0;
 
         app.classList.remove("hour-mark");
         message.classList.remove("show");
 
-    },5200);
+    },15000);
 }
 
 function toggleFullscreen(){
